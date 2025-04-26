@@ -1,3 +1,3 @@
-import("../ObjectClass.js")
-class Platform extends Object{
+import("../GameObjectClass.js")
+class Platform extends GameObject{
 }
