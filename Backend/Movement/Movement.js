@@ -25,4 +25,15 @@ export class Movement{
         }
         character.velocity.y-=(this.gravity*this.t);
     }
+    Collisions(character,object) {
+        if (character.IsCollidingWith(object)) {
+            // if (character.onTopOf(object)) {
+            //     alert(1)
+                if (character.velocity.y > 0) {
+                    character.velocity.y = 0;
+                    character.position.y = object.position.y - object.size.height;
+                }
+            // }
+        }
+    }
 }
