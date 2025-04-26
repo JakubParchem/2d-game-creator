@@ -5,9 +5,20 @@ import {Platform} from "./GameObjects/Static/PlatformClass.js";
 let character = new Character({width:10,height:10},{x:200,y:200})
 character.velocity.x=50;
 let platform =new Platform({width:800,height:10},{x:0,y:400})
-let movement = new Movement()
+let movement = new Movement(-100,15)
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+window.addEventListener('keydown', (event)=>{
+    if(event.key===' '){
+        character.velocity.y=-140;
+    }
+    if(event.key==='a' || event.key==='ArrowLeft'){
+        character.velocity.x=-70
+    }
+    if(event.key==='d' || event.key==='ArrowRight'){
+        character.velocity.x=70
+    }
+})
 function gameLoop(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle='red';
