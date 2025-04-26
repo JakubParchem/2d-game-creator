@@ -1,3 +1,3 @@
 import("Backend/GameObjects/Dynamic/CharacterClass.js")
-class Enemy extends Character{
+export class Enemy extends Character{
 }

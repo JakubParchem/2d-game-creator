@@ -1,5 +1,5 @@
-import("../GameObjectClass.js")
-class Character extends GameObject{
+import {GameObject} from "../GameObjectClass.js";
+export class Character extends GameObject{
 hp={currentHp:1,maxHp:100};
 attackType={ranged:false,melee:true};
 range={ranged:20,melee:5};

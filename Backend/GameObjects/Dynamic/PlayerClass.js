@@ -1,3 +1,3 @@
-class Player extends Character{
+export class Player extends Character{
 
 }
