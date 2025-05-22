@@ -3,6 +3,7 @@ export class GameObject{
     position={x:0,y:0};
     visible=true;
     collision=true;
+    colliding=false;
     constructor(size,position) {
         this.size=size;
         this.position=position;
