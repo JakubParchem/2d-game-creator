@@ -2,30 +2,65 @@ import {Character} from "./GameObjects/Dynamic/CharacterClass.js";
 import {Movement} from "./Movement/Movement.js";
 import {controls} from "./Controls.js";
 import {Platform} from "./GameObjects/Static/PlatformClass.js";
-let character = new Character({width:10,height:10},{x:200,y:200})
-character.velocity.x=50;
-let platform =new Platform({width:800,height:10},{x:0,y:400})
-let movement = new Movement(-500,30)
+import {Level} from "./GameObjects/LevelClass.js"
+let level=new Level()
+level.fillWithEmpty()
+level.addCharacter(0,0,new Character({width:10,height:10},'red',{x:25,y:25}))
+for(let i=0;i<16;i++){
+    level.updateTile(i,7,new Platform({x:0,y:0},'blue'))
+}
+let movement = new Movement(-500,150)
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-let start=0,end=0
+let now=0,last=performance.now()
 function gameLoop(){
-    end=performance.now();
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    if(character.colliding){
-        ctx.fillStyle='green';
-    }
-    else{
-        ctx.fillStyle='red';
-    }
-    ctx.fillRect(character.position.x,character.position.y,character.size.width,character.size.height)
-    ctx.fillStyle='blue';
-    ctx.fillRect(platform.position.x,platform.position.y,platform.size.width,platform.size.height)
-    movement.move(character,(end-start)/1000);
-    movement.Collisions(character,platform)
-    start=performance.now();
+    now=performance.now();
+    const deltaTime=(now-last)/1000
+    last=now
+    reloadLevel(ctx,deltaTime)
     requestAnimationFrame(gameLoop);
 }
-controls(character,movement);
+function reloadLevel(ctx,deltaTime){
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    for(let i=0;i<16;i++){
+        for(let j=0;j<12;j++){
+            //if(level.getTile(i,j).objType!=="void"){
+                const Tile=level.getTile(i,j)
+                switch(Tile.objType){
+                    case "Static":{
+                        const obj=level.staticObjects[Tile.objId]
+                        obj.position.x=i*50
+                        obj.position.y=j*50
+                        obj.size.width=50
+                        obj.size.height=50
+                        ctx.fillStyle=obj.color
+                        ctx.fillRect(i*50,j*50,50,50)
+                        break
+                    }
+                    case "Dynamic":{
+                        const obj=level.dynamicObjects[Tile.objId]
+                        ctx.fillStyle=obj.color
+                        ctx.fillRect(obj.position.x,obj.position.y,obj.size.width,obj.size.height)
+                        break
+                    }
+                    case "Character":{
+                        const obj=level.dynamicObjects[Tile.objId]
+                        if(obj.colliding){
+                            ctx.fillStyle='green';
+                        }
+                        else{
+                            ctx.fillStyle='red';
+                        }
+                        movement.move(obj,deltaTime);
+                        level.staticObjects.forEach(n=>movement.Collisions(obj,n))
+                        ctx.fillRect(obj.position.x,obj.position.y,obj.size.width,obj.size.height)
+                        break
+                    }
+                }
+            //}
+        }
+    }
+}
+controls(level.getCharacter(),movement);
 gameLoop()

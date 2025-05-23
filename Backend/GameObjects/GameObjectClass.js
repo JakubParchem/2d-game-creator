@@ -4,9 +4,10 @@ export class GameObject{
     visible=true;
     collision=true;
     colliding=false;
-    constructor(size,position) {
+    color
+    constructor(size,color) {
         this.size=size;
-        this.position=position;
+        this.color=color
     }
     makeVisible=()=>this.visible=true;
     makeInvisible=()=>this.visible=false;

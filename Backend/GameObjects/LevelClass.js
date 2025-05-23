@@ -1,6 +1,9 @@
-import "./GameObjectClass"
+import {GameObject} from "./GameObjectClass.js"
+import {Character} from "./Dynamic/CharacterClass.js";
+import {Movement} from "../Movement/Movement.js";
+import {Platform} from "./Static/PlatformClass.js";
 
-class Level{
+export class Level{
     height=12;
     width=16;
     map=[];
@@ -14,6 +17,15 @@ class Level{
             this.addDynamic(object)
         }
     }
+    addCharacter(width,height,object){
+        this.addDynamic(object)
+        this.updateTile(width,height,object)
+        let Tile=this.getTile(width,height)
+        Tile.objType="Character"
+    }
+    removeCharacter(){
+        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Character"))
+    }
     removeObject(object){
         if(object.isStatic()){
             this.removeStatic(object);
@@ -23,14 +35,16 @@ class Level{
         }
     }
     fillWithEmpty(){
-        for(let i=0;i<this.width;i++){
-            for(let j=0;j<this.height;j++){
-                this.map.push({
-                    width:i,
-                    height:j,
-                    objId:-1,
-                    objType:"void"
-                })
+        if(this.map.length===0) {
+            for (let i = 0; i < this.width; i++) {
+                for (let j = 0; j < this.height; j++) {
+                    this.map.push({
+                        width: i,
+                        height: j,
+                        objId: -1,
+                        objType: "void"
+                    })
+                }
             }
         }
     }
@@ -66,9 +80,13 @@ class Level{
         }
         else if(!object.isStatic()){
             this.addDynamic(object)
-            Tile.objType="Dynamic"
+            if(object.objType!=="Character") {
+                Tile.objType = "Dynamic"
+            }
             Tile.objId=this.dynamicObjects.length-1
         }
+        Tile.width=width
+        Tile.height=height
     }
     addStatic(staticObject){
         this.staticObjects.push(staticObject);
@@ -93,5 +111,8 @@ class Level{
     reloadDynamic(){
         let i=0;
         this.dynamicObjects.forEach(n=>n.objId=i++)
+    }
+    getCharacter(){
+        return this.dynamicObjects[this.map.find(n=>n.objType==="Character").objId]
     }
 }

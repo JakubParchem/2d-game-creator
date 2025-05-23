@@ -18,11 +18,15 @@ export function controls(character,movement) {
     })
     window.addEventListener('keyup', (event) => {
         if (event.key === 'a' || event.key === 'ArrowLeft') {
-            character.velocity.x += 50
+            if(character.colliding && character.velocity.x===-150) {
+                character.velocity.x = 0;
+            }
             movement.airFriction = 30;
         }
         if (event.key === 'd' || event.key === 'ArrowRight') {
-            character.velocity.x -= 50
+            if(character.colliding && character.velocity.x===150) {
+                character.velocity.x = 0;
+            }
             movement.airFriction = 30;
         }
     })

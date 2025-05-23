@@ -33,15 +33,19 @@ export class Movement{
             //     alert(1)
                 if (character.velocity.y > 0) {
                     character.velocity.y = 0;
-                    character.position.y = object.position.y - object.size.height/1.1;
+                    character.position.y = object.position.y-character.size.height+2
                 }
                 character.colliding = true;
                 object.colliding = true;
             // }
         }
-        else{
-            character.colliding = false;
+        else if(character.colliding && !object.colliding){
+            character.colliding = true;
             object.colliding = false;
+        }
+        else{
+            character.colliding=false
+            object.colliding=false
         }
     }
 }
