@@ -12,16 +12,17 @@ for(let i=0;i<16;i++){
 let movement = new Movement(-500,150)
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+let grid=false
 
 let now=0,last=performance.now()
 function gameLoop(){
     now=performance.now();
     const deltaTime=(now-last)/1000
     last=now
-    reloadLevel(ctx,deltaTime)
+    reloadLevel(ctx,deltaTime,grid)
     requestAnimationFrame(gameLoop);
 }
-function reloadLevel(ctx,deltaTime){
+function reloadLevel(ctx,deltaTime,grid){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     for(let i=0;i<16;i++){
         for(let j=0;j<12;j++){
@@ -60,6 +61,23 @@ function reloadLevel(ctx,deltaTime){
                 }
             //}
         }
+    }
+    if(grid){
+        drawGrid(ctx)
+    }
+}
+window.addEventListener('keydown', (event) => {
+    if(event.key==='g'){
+        grid=!grid
+    }
+})
+function drawGrid(ctx){
+    ctx.fillStyle='black'
+    for(let i=1;i<12;i++){
+        ctx.fillRect(0,i*50,800,1)
+    }
+    for(let i=1;i<16;i++){
+        ctx.fillRect(i*50,0,1,600)
     }
 }
 controls(level.getCharacter(),movement);
