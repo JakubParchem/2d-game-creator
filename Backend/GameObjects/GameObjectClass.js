@@ -31,15 +31,14 @@ export class GameObject{
         return [{x:this.position.x,y:this.position.y},
             {x:this.position.x+this.size.width,y:this.position.y+this.size.height},]
     }
+    getCenter(){
+        return {x:this.position.x+this.size.width/2,y:this.position.y+this.size.height/2};
+    }
     onTopOf(object){
-        const corners1=this.getCorners();
-        const corners2=object.getCorners();
-        return corners2[1]-corners1[0].y>=object.size.height;
+        return this.getCenter().y-object.getCenter().y<=0;
     }
     onRightOf(object){
-        const corners1=this.getCorners();
-        const corners2=object.getCorners();
-        return corners1[0].x>=corners2[1].x;
+        return this.getCenter().x-object.getCenter().x>=0;
     }
     isStatic=()=>true;
 }

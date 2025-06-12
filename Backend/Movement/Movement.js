@@ -29,15 +29,29 @@ export class Movement{
     }
     Collisions(character,object) {
         if (character.IsCollidingWith(object)) {
-            // if (character.onTopOf(object)) {
-            //     alert(1)
+             if (character.onTopOf(object)) {
                 if (character.velocity.y > 0) {
                     character.velocity.y = 0;
                     character.position.y = object.position.y-character.size.height+2
                 }
                 character.colliding = true;
                 object.colliding = true;
-            // }
+             }
+             else if (!character.onTopOf(object)) {
+                 if (character.velocity.y < 0) {
+                     character.velocity.y = 0;
+                     character.position.y = object.position.y+50
+                 }
+                 if(character.onRightOf(object)) {
+                     if (character.velocity.x > 0) {
+                         character.velocity.x = 0;
+                         character.position.x = object.position.x - character.size.width + 2
+                     }
+                 }
+                 character.colliding = true;
+                 object.colliding = true;
+             }
+
         }
         else if(character.colliding && !object.colliding){
             character.colliding = true;
