@@ -21,7 +21,7 @@ document.getElementById("save").addEventListener('click', ()=>{
 });
 document.getElementById("stop").addEventListener('click', ()=>{stopped=!stopped});
 level.loadLevel(levelstring);
-let stopped = true;
+let stopped = false;
 function gameLoop(){
     now=performance.now();
     let deltaTime=0;
@@ -34,8 +34,8 @@ function gameLoop(){
 }
 function reloadLevel(ctx,deltaTime,grid){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    for(let i=0;i<16;i++){
-        for(let j=0;j<12;j++){
+    for(let i=0;i<level.width;i++){
+        for(let j=0;j<level.height;j++){
             //if(level.getTile(i,j).objType!=="void"){
                 const Tile=level.getTile(i,j)
                 switch(Tile.objType){
@@ -71,12 +71,8 @@ function reloadLevel(ctx,deltaTime,grid){
                 }
             //}
         }
-        ctx.strokeStyle="black";
-        ctx.lineWidth=1;
-        ctx.strokeRect(3,3,102,14);
-        ctx.fillStyle="red";
-        ctx.fillRect(4,4,level.getCharacter().hp.currentHp,12);
     }
+    drawHealthBar(ctx,level.getCharacter());
     if(grid){
         drawGrid(ctx)
     }
@@ -88,6 +84,9 @@ window.addEventListener('keydown', (event) => {
     else if(event.key==='h'){
         level.getCharacter().hp.currentHp-=10;
     }
+    else if(event.key==='j'){
+        level.getCharacter().hp.currentHp+=10;
+    }
 })
 function drawGrid(ctx){
     ctx.fillStyle='black'
@@ -96,6 +95,21 @@ function drawGrid(ctx){
     }
     for(let i=1;i<16;i++){
         ctx.fillRect(i*50,0,1,600)
+    }
+}
+function drawHealthBar(ctx,character){
+    const hp=character.hp.currentHp;
+    ctx.strokeStyle="black";
+    ctx.lineWidth=1;
+    ctx.strokeRect(3,3,102,14);
+    if(hp>0) {
+        ctx.fillStyle = `rgb(${255*(hp/100)+50},0,0)`;
+        if(hp<=100) {
+            ctx.fillRect(4, 4, hp, 12);
+        }
+        else{
+            ctx.fillRect(4, 4, 100, 12);
+        }
     }
 }
 controls(level.getCharacter(),movement);

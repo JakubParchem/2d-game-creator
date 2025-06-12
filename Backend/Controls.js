@@ -2,7 +2,7 @@ import {Character} from "./GameObjects/Dynamic/CharacterClass.js";
 import {Movement} from "./Movement/Movement.js";
 export function controls(character,movement) {
     window.addEventListener('keydown', (event) => {
-        if (event.key === ' ' || event.key === 'ArrowUp') {
+        if (event.key === 'w' || event.key === 'ArrowUp') {
             if(character.colliding) {
                 character.velocity.y = -350;
             }
