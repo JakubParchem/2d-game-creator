@@ -9,6 +9,9 @@ export class Level{
     map=[];
     dynamicObjects=[];
     staticObjects=[];
+    constructor(){
+        this.fillWithEmpty();
+    }
     addObject(object){
         if(object.isStatic()){
             this.addStatic(object)
@@ -114,5 +117,25 @@ export class Level{
     }
     getCharacter(){
         return this.dynamicObjects[this.map.find(n=>n.objType==="Character").objId]
+    }
+    loadLevel(src){
+        const obj=JSON.parse(src);
+        this.map=obj.map;
+        this.height=obj.height;
+        this.width=obj.width;
+        obj.staticObjects.forEach(n=>{
+            this.addStatic(new Platform(n.size,n.color));
+        });
+        obj.dynamicObjects.forEach(n=>{
+            if(n.objType==="Character"){
+                this.addCharacter(50,50,new Character(n.size,n.color));
+            }
+            else{
+                this.addDynamic(new Character(n.size,n.color,n.position));
+            }
+        });
+    }
+    saveLevel(){
+        return JSON.stringify(this);
     }
 }
