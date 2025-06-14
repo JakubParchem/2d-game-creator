@@ -34,11 +34,37 @@ export class GameObject{
     getCenter(){
         return {x:this.position.x+this.size.width/2,y:this.position.y+this.size.height/2};
     }
-    onTopOf(object){
-        return this.getCenter().y-object.getCenter().y<=0;
+    onTopOf(object) {
+        return (
+            this.position.y + this.size.height <= object.position.y + 10 &&
+            this.position.y + this.size.height >= object.position.y - 10 &&
+            this.position.x + this.size.width > object.position.x &&
+            this.position.x < object.position.x + object.size.width
+        );
     }
-    onRightOf(object){
-        return this.getCenter().x-object.getCenter().x>=0;
+    onBottomOf(object) {
+        return (
+            this.position.y >= object.position.y + object.size.height - 5 &&
+            this.position.y <= object.position.y + object.size.height + 5 &&
+            this.position.x + this.size.width > object.position.x &&
+            this.position.x < object.position.x + object.size.width
+        );
+    }
+    onRightOf(object) {
+        return (
+            this.position.x >= object.position.x + object.size.width - 5 &&
+            this.position.x <= object.position.x + object.size.width + 5 &&
+            this.position.y + this.size.height > object.position.y &&
+            this.position.y < object.position.y + object.size.height
+        );
+    }
+    onLeftOf(object) {
+        return (
+            this.position.x + this.size.width <= object.position.x + 5 &&
+            this.position.x + this.size.width >= object.position.x - 5 &&
+            this.position.y + this.size.height > object.position.y &&
+            this.position.y < object.position.y + object.size.height
+        );
     }
     isStatic=()=>true;
 }

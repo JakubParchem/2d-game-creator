@@ -9,6 +9,7 @@ export class Level{
     map=[];
     dynamicObjects=[];
     staticObjects=[];
+    name="";
     constructor(){
         this.fillWithEmpty();
     }
