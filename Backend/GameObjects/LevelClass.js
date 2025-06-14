@@ -1,6 +1,4 @@
-import {GameObject} from "./GameObjectClass.js"
 import {Character} from "./Dynamic/CharacterClass.js";
-import {Movement} from "../Movement/Movement.js";
 import {Platform} from "./Static/PlatformClass.js";
 import {Player} from "./Dynamic/PlayerClass.js";
 import {Enemy} from "./Dynamic/EnemyClass.js";
@@ -133,6 +131,13 @@ export class Level{
             return null;
         }
         return this.dynamicObjects[player.objId]
+    }
+    getEnemies(){
+        return this.dynamicObjects.filter(n=>(n.characterType==='enemy'));
+    }
+    getEnemiesInPlayerRange(){
+        const player=this.getPlayer();
+        return this.getEnemies().filter(n=>(player.distanceTo(n)<=player.range.melee));
     }
     loadLevel(src){
         const obj=JSON.parse(src);

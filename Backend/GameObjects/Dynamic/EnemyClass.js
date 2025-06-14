@@ -52,9 +52,27 @@ export class Enemy extends Character{
         }
     }
     reloadAction=(ctx,i,j,level,movement,deltaTime,player)=>{
-        this.behaviour(player,100,150);
-        movement.move(this,deltaTime);
-        this.collisions(this,ctx,level,movement);
-        ctx.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+        if(!this.isDead()){
+            this.behaviour(player,100,150);
+            movement.move(this,deltaTime);
+            this.drawHealthBar(ctx)
+            this.collisions(this,ctx,level,movement);
+            ctx.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+        }
+    }
+    drawHealthBar(ctx){
+        const hp=this.hp.currentHp;
+        ctx.strokeStyle="black";
+        ctx.lineWidth=1;
+        ctx.strokeRect(this.position.x-this.size.width/2,this.position.y-this.size.height,this.size.width*2,8);
+        if(hp>0) {
+            ctx.fillStyle = `rgb(${255*(hp/100)+50},0,0)`;
+            if(hp<=100) {
+                ctx.fillRect(this.position.x-this.size.width/2+1,this.position.y-this.size.height+1,this.hp.currentHp/(100/(this.size.width*2))-1,7);
+            }
+            else{
+                ctx.fillRect(this.position.x-this.size.width/2+1,this.position.y-this.size.height+1,this.size.width*2-1,7);
+            }
+        }
     }
 }

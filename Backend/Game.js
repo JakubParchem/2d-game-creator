@@ -76,6 +76,7 @@ function reloadLevel(ctx,deltaTime,grid){
         }
     }
     drawHealthBar(ctx,level.getPlayer());
+    drawAttackBar(ctx,level.getPlayer());
     if(grid){
         drawGrid(ctx)
     }
@@ -89,6 +90,9 @@ window.addEventListener('keydown', (event) => {
     }
     else if(event.key==='j'){
         level.getPlayer().hp.currentHp+=10;
+    }
+    else if(event.key==='q'){
+        level.getPlayer().attackMultiple(level.getEnemies());
     }
 })
 function drawGrid(ctx){
@@ -111,7 +115,22 @@ function drawHealthBar(ctx,character){
             ctx.fillRect(4, 4, hp, 12);
         }
         else{
-            ctx.fillRect(4, 4, 101, 13);
+            ctx.fillRect(4, 4, 100, 13);
+        }
+    }
+}
+function drawAttackBar(ctx,character){
+    const timer=performance.now()-character.lastAttack;
+    ctx.strokeStyle="black";
+    ctx.lineWidth=1;
+    ctx.strokeRect(122,3,102,14);
+    if(timer>0) {
+        ctx.fillStyle = `yellow`;
+        if(timer<=character.attackSpeed*1000) {
+            ctx.fillRect(123, 4, 100 * (timer / (character.attackSpeed * 1000)), 12);
+        }
+        else{
+            ctx.fillRect(123, 4, 100, 12);
         }
     }
 }
