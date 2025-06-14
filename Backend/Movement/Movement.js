@@ -19,12 +19,19 @@ export class Movement{
             if(character.velocity.x<0){
                 character.velocity.x=0;
             }
+            character.state='moving'
+            character.facing='right';
         }
         else{
             character.velocity.x+=(this.airFriction*deltaTime);
             if(character.velocity.x>0){
                 character.velocity.x=0;
             }
+            character.state='moving'
+            character.facing='left';
+        }
+        if(character.velocity.x===0) {
+            character.state='standing'
         }
         character.velocity.y-=(this.gravity*deltaTime);
     }

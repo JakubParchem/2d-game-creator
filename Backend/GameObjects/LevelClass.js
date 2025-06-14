@@ -2,6 +2,7 @@ import {GameObject} from "./GameObjectClass.js"
 import {Character} from "./Dynamic/CharacterClass.js";
 import {Movement} from "../Movement/Movement.js";
 import {Platform} from "./Static/PlatformClass.js";
+import {Player} from "./Dynamic/PlayerClass.js";
 
 export class Level{
     height=12;
@@ -21,14 +22,14 @@ export class Level{
             this.addDynamic(object)
         }
     }
-    addCharacter(width,height,object){
+    addPlayer(width,height,object){
+        object.player=true;
         this.addDynamic(object)
         this.updateTile(width,height,object)
-        let Tile=this.getTile(width,height)
-        Tile.objType="Character"
+        this.getTile(width,height).objType="Player"
     }
-    removeCharacter(){
-        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Character"))
+    removePlayer(){
+        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Player"))
     }
     removeObject(object){
         if(object.isStatic()){
@@ -84,7 +85,7 @@ export class Level{
         }
         else if(!object.isStatic()){
             this.addDynamic(object)
-            if(object.objType!=="Character") {
+            if(object.objType!=="Player") {
                 Tile.objType = "Dynamic"
             }
             Tile.objId=this.dynamicObjects.length-1
@@ -116,27 +117,33 @@ export class Level{
         let i=0;
         this.dynamicObjects.forEach(n=>n.objId=i++)
     }
-    getCharacter(){
-        return this.dynamicObjects[this.map.find(n=>n.objType==="Character").objId]
+    getPlayer(){
+        return this.dynamicObjects[this.map.find(n=>n.objType==="Player").objId]
     }
     loadLevel(src){
         const obj=JSON.parse(src);
-        this.map=obj.map;
         this.height=obj.height;
         this.width=obj.width;
+
+        this.staticObjects = [];
+        this.dynamicObjects = [];
+        this.map=obj.map;
         obj.staticObjects.forEach(n=>{
             this.addStatic(new Platform(n.size,n.color));
         });
         obj.dynamicObjects.forEach(n=>{
-            if(n.objType==="Character"){
-                this.addCharacter(50,50,new Character(n.size,n.color));
+            if(n.player){
+                this.addPlayer(0,0,new Player({width:20,height:20},"red",{x:50,y:50},n.hp.currentHp));
             }
             else{
                 this.addDynamic(new Character(n.size,n.color,n.position));
             }
         });
     }
-    saveLevel(){
+    getLevelJSON(){
         return JSON.stringify(this);
+    }
+    saveLevel(){
+        localStorage.setItem(this.name, this.getLevelJSON());
     }
 }

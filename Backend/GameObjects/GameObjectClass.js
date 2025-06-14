@@ -14,6 +14,7 @@ export class GameObject{
     changeSizeBy= (n)=>{this.size.height*=n;this.size.width*=n}
     CollisionOn=()=>this.collision=true;
     CollisionOff=()=>this.collision=false;
+    reloadAction;
     IsCollidingWith(object){
         const a = this.getCorners();
         const b = object.getCorners();
