@@ -125,11 +125,12 @@ function drawAttackBar(ctx,character){
     ctx.lineWidth=1;
     ctx.strokeRect(122,3,102,14);
     if(timer>0) {
-        ctx.fillStyle = `yellow`;
         if(timer<=character.attackSpeed*1000) {
+            ctx.fillStyle = `yellow`;
             ctx.fillRect(123, 4, 100 * (timer / (character.attackSpeed * 1000)), 12);
         }
         else{
+            ctx.fillStyle = `orange`;
             ctx.fillRect(123, 4, 100, 12);
         }
     }
