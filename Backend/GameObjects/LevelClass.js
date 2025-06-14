@@ -139,6 +139,9 @@ export class Level{
         const player=this.getPlayer();
         return this.getEnemies().filter(n=>(player.distanceTo(n)<=player.range.melee));
     }
+    areEnemiesAlive(){
+        return this.getEnemies().reduce((acc, n) => acc + n.hp.currentHp, 0) > 0;
+    }
     loadLevel(src){
         const obj=JSON.parse(src);
         this.height=obj.height;

@@ -52,28 +52,38 @@ function gameLoop(){
 }
 function reloadLevel(ctx,deltaTime,grid){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    for(let i=0;i<level.width;i++){
-        for(let j=0;j<level.height;j++){
-            const Tile=level.getTile(i,j)
-            switch(Tile.objType){
-                    case "Static":{
-                        level.staticObjects[Tile.objId].reloadAction(ctx,i,j);
+    if(level.areEnemiesAlive()) {
+        for (let i = 0; i < level.width; i++) {
+            for (let j = 0; j < level.height; j++) {
+                const Tile = level.getTile(i, j)
+                switch (Tile.objType) {
+                    case "Static": {
+                        level.staticObjects[Tile.objId].reloadAction(ctx, i, j);
                         break
                     }
-                    case "Dynamic":{
-                        level.dynamicObjects[Tile.objId].reloadAction(ctx,i,j,level,movement,deltaTime);
+                    case "Dynamic": {
+                        level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
                         break
                     }
-                    case "Player":{
-                        level.dynamicObjects[Tile.objId].reloadAction(ctx,i,j,level,movement,deltaTime);
+                    case "Player": {
+                        level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
                         break
                     }
-                    case "Enemy":{
-                        level.dynamicObjects[Tile.objId].reloadAction(ctx,i,j,level,movement,deltaTime,level.getPlayer());
+                    case "Enemy": {
+                        level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime, level.getPlayer());
                         break
                     }
                 }
+            }
         }
+    }
+    else{
+        ctx.clearRect(0, 0, 800, 600);
+        ctx.font = "bold 72px Arial";
+        ctx.fillStyle = "Green";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("YOU WIN", 400, 300);
     }
     drawHealthBar(ctx,level.getPlayer());
     drawAttackBar(ctx,level.getPlayer());
