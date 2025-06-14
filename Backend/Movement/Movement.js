@@ -1,4 +1,3 @@
-import {Character} from "../GameObjects/Dynamic/CharacterClass.js";
 export class Movement{
     constructor(gravity=-20,airFriction=5) {
         this.gravity=gravity;

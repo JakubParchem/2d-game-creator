@@ -4,12 +4,13 @@ hp={currentHp:50,maxHp:100};
 attackType={ranged:false,melee:true};
 attackDamage={ranged:0,melee:20};
 state='standing';
-facing='left'
+facing='left';
+collisionColor='lime';
 range={ranged:30,melee:5};
 velocity={x:0,y:0};
 acceleration={x:0,y:0};
 standing=false;
-player=false;
+characterType='default'
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
@@ -31,11 +32,6 @@ attack(character){
     }
     return performance.now();
 }
-reloadAction=(ctx,i,j,level,movement,deltaTime)=>{
-    movement.move(this,deltaTime);
-    this.collisions(this,ctx,level,movement);
-    ctx.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
-}
 collisions(obj,ctx,level,movement){
     let colliding=false;
     level.staticObjects.forEach(n=>{
@@ -47,10 +43,10 @@ collisions(obj,ctx,level,movement){
         obj.colliding=true;
     }
     if(obj.colliding){
-        ctx.fillStyle='green';
+        ctx.fillStyle=this.collisionColor;
     }
     else{
-        ctx.fillStyle='red';
+        ctx.fillStyle=this.color;
         }
     }
 }

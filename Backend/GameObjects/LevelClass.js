@@ -3,6 +3,7 @@ import {Character} from "./Dynamic/CharacterClass.js";
 import {Movement} from "../Movement/Movement.js";
 import {Platform} from "./Static/PlatformClass.js";
 import {Player} from "./Dynamic/PlayerClass.js";
+import {Enemy} from "./Dynamic/EnemyClass.js";
 
 export class Level{
     height=12;
@@ -23,13 +24,22 @@ export class Level{
         }
     }
     addPlayer(width,height,object){
-        object.player=true;
+        object.characterType='player';
         this.addDynamic(object)
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Player"
     }
+    addEnemy(width,height,object){
+        object.characterType='enemy';
+        this.addDynamic(object)
+        this.updateTile(width,height,object)
+        this.getTile(width,height).objType="Enemy"
+    }
     removePlayer(){
         this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Player"))
+    }
+    removeEnemy(){
+        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Enemy"))
     }
     removeObject(object){
         if(object.isStatic()){
@@ -85,7 +95,7 @@ export class Level{
         }
         else if(!object.isStatic()){
             this.addDynamic(object)
-            if(object.objType!=="Player") {
+            if(object.objType!=="Player" || object.objType!=="Enemy") {
                 Tile.objType = "Dynamic"
             }
             Tile.objId=this.dynamicObjects.length-1
@@ -118,7 +128,11 @@ export class Level{
         this.dynamicObjects.forEach(n=>n.objId=i++)
     }
     getPlayer(){
-        return this.dynamicObjects[this.map.find(n=>n.objType==="Player").objId]
+        const player=this.map.find(n=>n.objType==="Player");
+        if(!player){
+            return null;
+        }
+        return this.dynamicObjects[player.objId]
     }
     loadLevel(src){
         const obj=JSON.parse(src);
@@ -132,8 +146,11 @@ export class Level{
             this.addStatic(new Platform(n.size,n.color));
         });
         obj.dynamicObjects.forEach(n=>{
-            if(n.player){
-                this.addPlayer(0,0,new Player({width:20,height:20},"red",{x:50,y:50},n.hp.currentHp));
+            if(n.characterType==="player"){
+                this.addPlayer(0,0,new Player(n.size,n.color,n.position,n.hp.currentHp));
+            }
+            else if(n.characterType==="enemy"){
+                this.addEnemy(0,0,new Enemy(n.size,n.color,n.position,n.hp.currentHp));
             }
             else{
                 this.addDynamic(new Character(n.size,n.color,n.position));
