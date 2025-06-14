@@ -10,7 +10,9 @@ range={ranged:30,melee:5};
 velocity={x:0,y:0};
 acceleration={x:0,y:0};
 standing=false;
-characterType='default'
+characterType='default';
+lastAttack=0;
+attackSpeed=1.5;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
@@ -26,11 +28,14 @@ isStandingOn(object) {
     );
 }
 attack(character){
-    this.state='attacking';
-    if(this.range.melee<=this.distanceTo(character)){
-        character.hp.currentHp-=this.attackDamage.melee;
+    if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
+        this.state='attacking';
+        if(this.range.melee<=this.distanceTo(character)) {
+            character.hp.currentHp -= this.attackDamage.melee;
+        }
+        this.lastAttack=performance.now();
     }
-    return performance.now();
+
 }
 collisions(obj,ctx,level,movement){
     let colliding=false;
