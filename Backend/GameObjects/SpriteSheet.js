@@ -36,21 +36,17 @@ export class SpriteSheet {
 
         if(player) {
             this.idle.states = 6;
+            this.jump.states = 9;
         }
         else{
             this.idle.states = 5;
+            this.jump.states = 7;
         }
         this.idle.name = src + '/Idle.png';
         this.idle.img = new Image();
         this.idle.img.src = this.idle.name;
         this.generateFrames(this.idle);
 
-        if(player) {
-            this.jump.states = 9;
-        }
-        else{
-            this.jump.states = 7;
-        }
         this.jump.name = src + '/Jump.png';
         this.jump.img = new Image();
         this.jump.img.src = this.jump.name;

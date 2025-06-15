@@ -9,14 +9,13 @@ let onRightUpHandler;
 let healthDownHandler;
 let healthUpHandler;
 let attackHandler;
-
 export function controls(level, movement,test) {
     const character = level.getPlayer();
     if (!character) return;
     onJumpHandler = (e) => {
         if ((e.key === 'w' || e.key === 'ArrowUp') && character.colliding) {
+            character.state = 'jumping';
             character.velocity.y = -350;
-            character.state='jumping';
         }
     };
     onLeftDownHandler = (e) => {
