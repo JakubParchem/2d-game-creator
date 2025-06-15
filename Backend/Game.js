@@ -31,7 +31,6 @@ document.getElementById("stop").addEventListener('click', ()=>{
         document.getElementById("stop").innerText='Create'
     }
     stopped=!stopped});
-document.getElementById("remove").addEventListener('click', ()=>{localStorage.removeItem('level.'+document.getElementById("levelName").value);reloadLevelList();});
 const gridHandler = (e) => {
     if(e.key==='g'){
         grid=!grid
@@ -44,7 +43,7 @@ canvas.addEventListener('click', (e) => {
     const y = e.clientY - rect.top;
     const tileX = Math.floor(x / 50);
     const tileY = Math.floor(y / 50);
-    if(level.getTile(tileX,tileY).objId===-1) {
+    if(level.getTile(tileX,tileY).objId===-1 && stopped) {
         if (currentTool === "Platform") {
             level.updateTile(tileX, tileY, new Platform({width: 50, height: 50}, "blue"));
         } else if (currentTool === "Enemy") {
@@ -53,7 +52,7 @@ canvas.addEventListener('click', (e) => {
             level.addPlayer(tileX, tileY,new Player({width:70,height:70},"orange",{x:50,y:50},100));
         }
     }
-    if(currentTool === "Erase" && level.getTile(tileX,tileY).objId!==-1) {
+    if(currentTool === "Erase" && level.getTile(tileX,tileY).objId!==-1 && stopped) {
         level.clearTile(tileX,tileY);
     }
 });
@@ -178,10 +177,19 @@ function reloadLevelList() {
         const key = localStorage.key(i);
         if (key.startsWith('level.')) {
             const li = document.createElement('li');
-            const btn = document.createElement('button');
-            btn.textContent = key.replace(/^level\./, '')
-            btn.addEventListener('click', ()=>{levelstring=localStorage.getItem(key);load=true});
-            li.appendChild(btn);
+            const level = document.createElement('div');
+            const removebtn=document.createElement('button');
+            const loadbtn =document.createElement('button');
+            const name=document.createElement('p');
+            name.textContent = key.replace(/^level\./, '')
+            loadbtn.textContent = 'Load Level'
+            loadbtn.addEventListener('click', ()=>{levelstring=localStorage.getItem(key);load=true});
+            removebtn.textContent = 'Remove Level';
+            removebtn.addEventListener('click', ()=>{localStorage.removeItem(key);reloadLevelList();});
+            level.append(name);
+            level.appendChild(loadbtn);
+            level.appendChild(removebtn);
+            li.appendChild(level);
             levelList.appendChild(li);
         }
     }
