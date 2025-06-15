@@ -13,6 +13,7 @@ standing=false;
 characterType='default';
 lastAttack=0;
 attackSpeed=1.5;
+Tile;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;

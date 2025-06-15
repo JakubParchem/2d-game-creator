@@ -10,6 +10,9 @@ export class Movement{
         if(accelerationx<0){accelerationx=0}
         character.position.x+=character.velocity.x*deltaTime+(0.5*accelerationx*deltaTime**2);
         character.position.y+=character.velocity.y*deltaTime+(0.5*accelerationy*deltaTime**2);
+        if(character.position.y>600){
+            character.hp.currentHp=0;
+        }
         this.setNewVelocity(character,deltaTime);
     }
     setNewVelocity(character,deltaTime){
@@ -18,12 +21,20 @@ export class Movement{
             if(character.velocity.x<0){
                 character.velocity.x=0;
             }
+            if(character.position.x+character.size.width>800){
+                character.position.x=800-character.size.width;
+                character.velocity.x=0;
+            }
             character.state='moving'
             character.facing='right';
         }
         else{
             character.velocity.x+=(this.airFriction*deltaTime);
             if(character.velocity.x>0){
+                character.velocity.x=0;
+            }
+            if(character.position.x<0){
+                character.position.x=0;
                 character.velocity.x=0;
             }
             character.state='moving'

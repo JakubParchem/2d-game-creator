@@ -10,6 +10,7 @@ export class Level{
     dynamicObjects=[];
     staticObjects=[];
     name="";
+    saved=false;
     constructor(){
         this.fillWithEmpty();
     }
@@ -23,21 +24,24 @@ export class Level{
     }
     addPlayer(width,height,object){
         object.characterType='player';
-        this.addDynamic(object)
+        object.tile={x:width,y:height};
+        object.position={x:(width+1)*50-25,y:(height+1)*50-25};
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Player"
     }
     addEnemy(width,height,object){
         object.characterType='enemy';
-        this.addDynamic(object)
+        object.tile={x:width,y:height};
+        object.position={x:(width+1)*50-25,y:(height+1)*50-25};
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Enemy"
     }
     removePlayer(){
-        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Player"))
+        const player=this.getPlayer();
+        this.clearTile(player.tile.x,player.tile.y);
     }
-    removeEnemy(){
-        this.removeDynamic(this.dynamicObjects.find(n=>n.objType==="Enemy"))
+    removeEnemy(object){
+        this.clearTile(object.tile.x,object.tile.y);
     }
     removeObject(object){
         if(object.isStatic()){
@@ -155,10 +159,24 @@ export class Level{
         });
         obj.dynamicObjects.forEach(n=>{
             if(n.characterType==="player"){
-                this.addPlayer(0,0,new Player(n.size,n.color,n.position,n.hp.currentHp));
+                if(this.saved){
+                    const pos=n.position;
+                    this.addPlayer(n.tile.x,n.tile.y,new Player(n.size,n.color,n.position,n.hp.currentHp));
+                    this.getPlayer().position=pos;
+                }
+                else {
+                    this.addPlayer(n.tile.x, n.tile.y, new Player(n.size, n.color, n.position, n.hp.currentHp));
+                }
             }
             else if(n.characterType==="enemy"){
-                this.addEnemy(0,0,new Enemy(n.size,n.color,n.position,n.hp.currentHp));
+                if(this.saved){
+                    const pos=n.position;
+                    this.addEnemy(n.tile.x,n.tile.y,new Enemy(n.size,n.color,n.position,n.hp.currentHp));
+                    this.dynamicObjects[this.getTile(n.tile.x,n.tile.y).objId].position=pos;
+                }
+                else {
+                    this.addEnemy(n.tile.x, n.tile.y, new Enemy(n.size, n.color, n.position, n.hp.currentHp));
+                }
             }
             else{
                 this.addDynamic(new Character(n.size,n.color,n.position));
@@ -169,6 +187,7 @@ export class Level{
         return JSON.stringify(this);
     }
     saveLevel(){
+        this.saved=true;
         localStorage.setItem(this.name, this.getLevelJSON());
     }
 }
