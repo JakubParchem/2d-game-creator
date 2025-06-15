@@ -29,7 +29,12 @@ export class Movement{
                 if(character.state==='jumping'){
                     character.lastFrame=0;
                 }
-                character.state='moving'
+                if(performance.now()-character.lastAttack<=character.attackSpeed*1000 && character.lastAttack!==0) {
+                    character.state='attacking';
+                }
+                else{
+                    character.state='moving'
+                }
             }
             else{
                 character.state='jumping'
@@ -49,7 +54,12 @@ export class Movement{
                 if(character.state==='jumping'){
                     character.lastFrame=0;
                 }
-                character.state='moving'
+                if(performance.now()-character.lastAttack<=character.attackSpeed*1000 && character.lastAttack!==0) {
+                    character.state='attacking';
+                }
+                else{
+                    character.state='moving'
+                }
             }
             else{
                 character.state='jumping'
@@ -61,7 +71,12 @@ export class Movement{
                 if(character.state==='jumping'){
                     character.lastFrame=0;
                 }
-                character.state='standing'
+                if(performance.now()-character.lastAttack<=character.attackSpeed*1000 && character.lastAttack!==0) {
+                    character.state='attacking';
+                }
+                else{
+                    character.state='standing'
+                }
             }
             else{
                 character.state='jumping'

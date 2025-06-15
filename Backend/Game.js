@@ -16,7 +16,7 @@ level.addPlayer(0,0,new Player({width:70,height:70},"orange",{x:50,y:50},80));
 for(let i=0;i<16;i++){
     level.updateTile(i,9,new Platform({width:50,height:50},"blue"))
 }
-level.addEnemy(10,0,new Enemy({width:15,height:15},"red",{x:400,y:50},50));
+level.addEnemy(10,0,new Enemy({width:70,height:70},"red",{x:400,y:50},50));
 let levelstring=level.getLevelJSON();
 document.getElementById("save").addEventListener('click', ()=>{
     level.name='level.'+document.getElementById("levelName").value;

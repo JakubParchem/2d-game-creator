@@ -41,7 +41,7 @@ export class Enemy extends Character{
     }
     behaviour(character,range,detectionRange){
         const dist=this.distanceTo(character)
-        if(dist<=detectionRange){
+        if(dist<=detectionRange && !character.isDead()){
             this.moveTo(character.position.x);
             if(this.range.melee+15>dist){
                 this.attack(character);
@@ -53,11 +53,14 @@ export class Enemy extends Character{
     }
     reloadAction=(ctx,i,j,level,movement,deltaTime,player)=>{
         if(!this.isDead()){
+            console.log("State:", this.state);
+            console.log("Frame:", this.lastFrame);
+            console.log("Attack Animation:", this.attackAnimation)
             this.behaviour(player,100,150);
             movement.move(this,deltaTime);
             this.drawHealthBar(ctx)
             this.collisions(this,ctx,level,movement);
-            ctx.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+            this.animate(ctx)
         }
     }
     drawHealthBar(ctx){

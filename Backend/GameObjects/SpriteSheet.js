@@ -9,7 +9,7 @@ export class SpriteSheet {
 
     imgSize = { width: 128, height: 128 };
 
-    constructor(src) {
+    constructor(src,player) {
         this.attack1.states = 4;
         this.attack1.name = src + '/Attack_1.png';
         this.attack1.img = new Image();
@@ -34,13 +34,23 @@ export class SpriteSheet {
         this.dead.img.src = this.dead.name;
         this.generateFrames(this.dead);
 
-        this.idle.states = 6;
+        if(player) {
+            this.idle.states = 6;
+        }
+        else{
+            this.idle.states = 5;
+        }
         this.idle.name = src + '/Idle.png';
         this.idle.img = new Image();
         this.idle.img.src = this.idle.name;
         this.generateFrames(this.idle);
 
-        this.jump.states = 9;
+        if(player) {
+            this.jump.states = 9;
+        }
+        else{
+            this.jump.states = 7;
+        }
         this.jump.name = src + '/Jump.png';
         this.jump.img = new Image();
         this.jump.img.src = this.jump.name;

@@ -3,6 +3,7 @@ import {Character} from "./CharacterClass.js";
 export class Player extends Character{
     characterType='player';
     collisionColor='green'
+    attackDamage={ranged:0,melee:20}
     constructor(size,color,position,hp) {
         super(size,color,position,hp);
     }
