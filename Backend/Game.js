@@ -12,7 +12,7 @@ const ctx = canvas.getContext('2d');
 let grid=false;
 let load=true;
 let now=0,last=performance.now()
-level.addPlayer(0,0,new Player({width:15,height:15},"orange",{x:50,y:50},80));
+level.addPlayer(0,0,new Player({width:70,height:70},"orange",{x:50,y:50},80));
 for(let i=0;i<16;i++){
     level.updateTile(i,9,new Platform({width:50,height:50},"blue"))
 }
@@ -151,4 +151,7 @@ function reloadLevelList() {
         }
     }
 }
+const img = new Image();
+img.src = 'Sprites/Samurai/Idle.png';
+document.body.appendChild(img);
 gameLoop()

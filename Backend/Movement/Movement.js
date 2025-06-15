@@ -25,7 +25,15 @@ export class Movement{
                 character.position.x=800-character.size.width;
                 character.velocity.x=0;
             }
-            character.state='moving'
+            if(character.colliding){
+                if(character.state==='jumping'){
+                    character.lastFrame=0;
+                }
+                character.state='moving'
+            }
+            else{
+                character.state='jumping'
+            }
             character.facing='right';
         }
         else if(character.velocity.x<0){
@@ -37,11 +45,27 @@ export class Movement{
                 character.position.x=0;
                 character.velocity.x=0;
             }
-            character.state='moving'
+            if(character.colliding){
+                if(character.state==='jumping'){
+                    character.lastFrame=0;
+                }
+                character.state='moving'
+            }
+            else{
+                character.state='jumping'
+            }
             character.facing='left';
         }
         else {
-            character.state='standing'
+            if(character.colliding){
+                if(character.state==='jumping'){
+                    character.lastFrame=0;
+                }
+                character.state='standing'
+            }
+            else{
+                character.state='jumping'
+            }
         }
         character.velocity.y-=(this.gravity*deltaTime);
     }

@@ -12,13 +12,13 @@ velocity={x:0,y:0};
 acceleration={x:0,y:0};
 standing=false;
 characterType='default';
-lastAttack=0;
+lastAttack=1;
 attackSpeed=1.5;
 spriteSheat;
 Tile;
 lastFrame=0;
 lastFrameChange=0;
-animationSpeed=0.3;
+animationSpeed=0.15;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
@@ -67,23 +67,54 @@ collisions(obj,ctx,level,movement){
         obj.colliding=true;
     }
 }
-animate(ctx){
-    if(this.state==='standing'){
-        if(performance.now()-this.lastFrameChange>=this.animationSpeed*1000 || this.lastFrameChange===0){
-                const frame = this.spriteSheat.idle.frames[this.lastFrame];
-                ctx.drawImage(
-                    this.spriteSheat.idle.img,
-                    frame.width, frame.height,
-                    this.spriteSheat.imgSize.width, this.spriteSheat.imgSize.height,
-                    this.position.x, this.position.y,
-                    this.size.width, this.size.height
-                )
-            this.lastFrameChange=performance.now();
-            this.lastFrame++;
-            if(this.lastFrame>=this.spriteSheat.idle.states){
-                this.lastFrame=0;
+img=new Image();
+animate(ctx) {
+        const now = performance.now();
+        let sprite={};
+        switch(this.state){
+            case 'standing':{
+                sprite = this.spriteSheat.idle;
+                break
+            }
+            case 'moving':{
+                sprite = this.spriteSheat.run;
+                break
+            }
+            case 'jumping':{
+                sprite = this.spriteSheat.jump;
+                break
+            }
+            case 'attacking':{
+                switch(this.lastAttack){
+                    case 1:{
+                        sprite = this.spriteSheat.attack1;
+                        this.lastAttack++;
+                        break
+                    }
+                    case 2:{
+                        sprite = this.spriteSheat.attack2;
+                        this.lastAttack++;
+                        break
+                    }
+                    case 3:{
+                        sprite = this.spriteSheat.attack3;
+                        this.lastAttack=1;
+                        break
+                    }
+                }
             }
         }
+        const frame=sprite.frames[this.lastFrame];
+        if (now - this.lastFrameChange >= this.animationSpeed * 1000 || this.lastFrameChange === 0) {
+            this.lastFrame = (this.lastFrame +1) % sprite.states;
+            this.lastFrameChange = now;
+        }
+        const img = sprite.img;
+
+        ctx.drawImage(img, frame.width, frame.height, this.spriteSheat.imgSize.width, this.spriteSheat.imgSize.height, this.position.x, this.position.y, this.size.width, this.size.height);
+
+        console.log("State:", this.state);
+        console.log("Frame:", this.lastFrame);
     }
-}
+
 }
