@@ -25,7 +25,7 @@ export class Level{
     addPlayer(width,height,object){
         object.characterType='player';
         object.tile={x:width,y:height};
-        object.position={x:(width+1)*50-25,y:(height+1)*50-25};
+        object.position={x:(width*50)-25,y:((height)*50)-25};
         object.setSpriteSheat('./Sprites/Samurai');
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Player"
@@ -33,7 +33,7 @@ export class Level{
     addEnemy(width,height,object){
         object.characterType='enemy';
         object.tile={x:width,y:height};
-        object.position={x:(width+1)*50-25,y:(height+1)*50-25};
+        object.position={x:(width*50)-25,y:((height)*50)-25};
         object.setSpriteSheat('./Sprites/Samurai_Enemy');
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Enemy"
@@ -84,7 +84,7 @@ export class Level{
         if(Tile.objType==="Static"){
             this.removeStatic(this.staticObjects[Tile.objId])
         }
-        else if(Tile.objType==="Dynamic"){
+        else{
             this.removeDynamic(this.dynamicObjects[Tile.objId])
         }
         Tile.objId=-1

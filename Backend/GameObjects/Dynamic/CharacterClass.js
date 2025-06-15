@@ -44,7 +44,7 @@ isStandingOn(object) {
     );
 }
 attack(character){
-    if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
+    if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0 && !this.isDead()){
         this.slashSound.play();
         if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
@@ -58,7 +58,7 @@ attack(character){
     }
 }
 attackMultiple(characters){
-    if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
+    if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0 && !this.isDead()){
         this.slashSound.play();
         characters.forEach(character => {if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
