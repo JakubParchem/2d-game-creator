@@ -4,7 +4,8 @@ import {SpriteSheet} from "../SpriteSheet.js";
 export class Player extends Character{
     characterType='player';
     collisionColor='green'
-    attackDamage={ranged:0,melee:20}
+    attackDamage={ranged:0,melee:40}
+    attackSpeed=1;
     constructor(size,color,position,hp) {
         super(size,color,position,hp);
     }

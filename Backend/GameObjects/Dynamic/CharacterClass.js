@@ -41,6 +41,7 @@ attack(character){
     if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
         if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
+            if(character.hp.currentHp<0){character.hp.currentHp=0}
         }
         this.lastFrame=0;
         this.attackAnimation=(this.attackAnimation+1)%3;
@@ -52,6 +53,7 @@ attackMultiple(characters){
     if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
         characters.forEach(character => {if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
+            if(character.hp.currentHp<0){character.hp.currentHp=0}
         }})
         this.lastFrame=0;
         this.attackAnimation=(this.attackAnimation+1)%3;
