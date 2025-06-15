@@ -20,13 +20,16 @@ Tile;
 lastFrame=0;
 lastFrameChange=0;
 animationSpeed=0.15;
-slashSound=new Audio('../../../Frontend/Sounds/sword-sound.mp3');
-hurtSound=new Audio('../../../Frontend/Sounds/hurt-sound.mp3');
-deathSound=new Audio('../../../Frontend/Sounds/death-sound.mp3');
+slashSound;
+hurtSound;
+deathSound;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
     this.position=position
+    this.slashSound=new Audio('../../../Frontend/Sounds/sword-sound.mp3');
+    this.hurtSound=new Audio('../../../Frontend/Sounds/hurt-sound.mp3');
+    this.deathSound=new Audio('../../../Frontend/Sounds/death-sound.mp3');
 }
 setSpriteSheat(src){
     this.spriteSheat=new SpriteSheet(src,false);
