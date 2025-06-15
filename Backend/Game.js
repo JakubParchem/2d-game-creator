@@ -52,14 +52,15 @@ canvas.addEventListener('click', (e) => {
             level.addPlayer(tileX, tileY,new Player({width:70,height:70},"orange",{x:50,y:50},100));
         }
     }
-    if(currentTool === "Erase" && level.getTile(tileX,tileY).objId!==-1 && stopped) {
+    if((currentTool === "Eraser") && level.getTile(tileX,tileY).objId!==-1 && stopped) {
         level.clearTile(tileX,tileY);
+        levelstring=level.getLevelJSON();
+        load=true;
     }
 });
 let stopped = true;
 function gameLoop(){
     now=performance.now();
-    document.getElementById("display").textContent=currentTool;
     if(load){
         load=false;
         level.loadLevel(levelstring);
@@ -91,6 +92,7 @@ function reloadLevel(ctx,deltaTime,grid){
                         break
                     }
                     case "Player": {
+                        document.getElementById("display").textContent=level.getPlayer().isDead();
                         if(level.getPlayer() && !stopped) {
                             level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
                         }
@@ -114,13 +116,23 @@ function reloadLevel(ctx,deltaTime,grid){
             }
         }
     }
-    else if(!level.areEnemiesAlive() && !stopped){
-        ctx.clearRect(0, 0, 800, 600);
-        ctx.font = "bold 72px Arial";
-        ctx.fillStyle = "Green";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("YOU WIN", 400, 300);
+    else if((level.getPlayer() && level.getPlayer().isDead() && !stopped) || (!level.areEnemiesAlive() && !stopped)){
+        if(level.getPlayer().isDead()){
+            ctx.clearRect(0, 0, 800, 600);
+            ctx.font = "bold 72px Arial";
+            ctx.fillStyle = "red";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("GAME OVER", 400, 300);
+        }
+        else {
+            ctx.clearRect(0, 0, 800, 600);
+            ctx.font = "bold 72px Arial";
+            ctx.fillStyle = "Green";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("YOU WIN", 400, 300);
+        }
     }
     if(level.getPlayer() && !stopped) {
         drawHealthBar(ctx, level.getPlayer());

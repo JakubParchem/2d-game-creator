@@ -21,14 +21,6 @@ export class Player extends Character{
             this.collisions(this, ctx, level, movement);
             this.animate(ctx)
         }
-        else{
-            ctx.clearRect(0, 0, 800, 600);
-            ctx.font = "bold 72px Arial";
-            ctx.fillStyle = "red";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("GAME OVER", 400, 300);
-        }
     }
 
 }
