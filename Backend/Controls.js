@@ -16,6 +16,7 @@ export function controls(level, movement,test) {
     onJumpHandler = (e) => {
         if ((e.key === 'w' || e.key === 'ArrowUp') && character.colliding) {
             character.velocity.y = -350;
+            character.state='jumping';
         }
     };
     onLeftDownHandler = (e) => {

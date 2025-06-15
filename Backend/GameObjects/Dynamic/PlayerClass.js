@@ -10,7 +10,7 @@ export class Player extends Character{
         if(!this.isDead()) {
             movement.move(this, deltaTime);
             this.collisions(this, ctx, level, movement);
-            ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height)
+            this.animate(ctx)
         }
         else{
             ctx.clearRect(0, 0, 800, 600);

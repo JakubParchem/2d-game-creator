@@ -28,7 +28,7 @@ export class Movement{
             character.state='moving'
             character.facing='right';
         }
-        else{
+        else if(character.velocity.x<0){
             character.velocity.x+=(this.airFriction*deltaTime);
             if(character.velocity.x>0){
                 character.velocity.x=0;
@@ -40,7 +40,7 @@ export class Movement{
             character.state='moving'
             character.facing='left';
         }
-        if(character.velocity.x===0) {
+        else {
             character.state='standing'
         }
         character.velocity.y-=(this.gravity*deltaTime);

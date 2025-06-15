@@ -16,6 +16,9 @@ lastAttack=0;
 attackSpeed=1.5;
 spriteSheat;
 Tile;
+lastFrame=0;
+lastFrameChange=0;
+animationSpeed=0.3;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
@@ -36,6 +39,7 @@ isStandingOn(object) {
 attack(character){
     if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
         this.state='attacking';
+        this.lastFrame=0;
         if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
         }
@@ -45,6 +49,7 @@ attack(character){
 attackMultiple(characters){
     if(performance.now()-this.lastAttack>=this.attackSpeed*1000 || this.lastAttack===0){
         this.state='attacking';
+        this.lastFrame=0;
         characters.forEach(character => {if(this.range.melee>=this.distanceTo(character)) {
             character.hp.currentHp -= this.attackDamage.melee;
         }})
@@ -61,11 +66,24 @@ collisions(obj,ctx,level,movement){
     if(colliding){
         obj.colliding=true;
     }
-    if(obj.colliding){
-        ctx.fillStyle=this.collisionColor;
-    }
-    else{
-        ctx.fillStyle=this.color;
+}
+animate(ctx){
+    if(this.state==='standing'){
+        if(performance.now()-this.lastFrameChange>=this.animationSpeed*1000 || this.lastFrameChange===0){
+                const frame = this.spriteSheat.idle.frames[this.lastFrame];
+                ctx.drawImage(
+                    this.spriteSheat.idle.img,
+                    frame.width, frame.height,
+                    this.spriteSheat.imgSize.width, this.spriteSheat.imgSize.height,
+                    this.position.x, this.position.y,
+                    this.size.width, this.size.height
+                )
+            this.lastFrameChange=performance.now();
+            this.lastFrame++;
+            if(this.lastFrame>=this.spriteSheat.idle.states){
+                this.lastFrame=0;
+            }
         }
     }
+}
 }

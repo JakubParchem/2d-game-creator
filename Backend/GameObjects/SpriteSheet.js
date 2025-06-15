@@ -1,15 +1,17 @@
 export class SpriteSheet {
-    attack1={states:0,name:'',frames:[]};
+    attack1={states:0,name:'',frames:[],img:{}};
     attack2={states:0,name:'',frames:[]};
     attack3={states:0,name:'',frames:[]};
     dead={states:0,name:'',frames:[]};
-    idle={states:0,name:'',frames:[]};
+    idle={states:0,name:'',frames:[],img:{}};
     jump={states:0,name:'',frames:[]};
     run={states:0,name:'',frames:[]};
     imgSize={width:128,height:128};
     constructor(src){
         this.attack1.states=4
         this.attack1.name=src+'/Attack_1.png'
+        this.attack1.img=new Image()
+        this.attack1.img.src=name;
         this.generateFrames(this.attack1)
         this.attack2.states=5
         this.attack2.name=src+'/Attack_2.png'
@@ -22,6 +24,8 @@ export class SpriteSheet {
         this.generateFrames(this.dead)
         this.idle.states=6
         this.idle.name=src+'/Idle.png'
+        this.idle.img=new Image()
+        this.idle.img.src=name;
         this.generateFrames(this.idle)
         this.jump.states=9
         this.jump.name=src+'/Jump.png'
@@ -31,10 +35,8 @@ export class SpriteSheet {
         this.generateFrames(this.run)
     }
     generateFrames(state){
-        state.frames=[];
         for (let i = 0; i < state.states; i++) {
-            state.frames.push({width:this.imgSize.width*i,height:this.imgSize.height});
+            state.frames.push({width:this.imgSize.width*i,height:0});
         }
     }
-    get
 }

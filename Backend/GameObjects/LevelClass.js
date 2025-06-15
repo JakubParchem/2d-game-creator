@@ -26,7 +26,7 @@ export class Level{
         object.characterType='player';
         object.tile={x:width,y:height};
         object.position={x:(width+1)*50-25,y:(height+1)*50-25};
-        object.setSpriteSheat('../../Sprites/Samurai');
+        object.setSpriteSheat('../Sprites/Samurai');
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Player"
     }
@@ -34,7 +34,7 @@ export class Level{
         object.characterType='enemy';
         object.tile={x:width,y:height};
         object.position={x:(width+1)*50-25,y:(height+1)*50-25};
-        object.setSpriteSheat('../../Sprites/Samurai_Enemy');
+        object.setSpriteSheat('../Sprites/Samurai_Enemy');
         this.updateTile(width,height,object)
         this.getTile(width,height).objType="Enemy"
     }

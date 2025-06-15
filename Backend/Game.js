@@ -12,7 +12,7 @@ const ctx = canvas.getContext('2d');
 let grid=false;
 let load=true;
 let now=0,last=performance.now()
-//level.addPlayer(0,0,new Player({width:15,height:15},"orange",{x:50,y:50},80));
+level.addPlayer(0,0,new Player({width:15,height:15},"orange",{x:50,y:50},80));
 for(let i=0;i<16;i++){
     level.updateTile(i,9,new Platform({width:50,height:50},"blue"))
 }
@@ -34,12 +34,10 @@ window.addEventListener('keydown', gridHandler);
 let stopped = false;
 function gameLoop(){
     now=performance.now();
+    document.getElementById("display").textContent=level.getPlayer().state + ' ' + level.getPlayer().facing;
     if(load){
         load=false;
         level.loadLevel(levelstring);
-        if(level.getPlayer()===null){
-            level.addPlayer(0,0,new Player({width:15,height:15},"orange",{x:50,y:50},80));
-        }
         controls(level,movement,true);
         reloadLevelList();
     }
@@ -128,7 +126,7 @@ function drawAttackBar(ctx,character){
     ctx.lineWidth=1;
     ctx.strokeRect(122,3,102,14);
     if(timer>0) {
-        if(timer<=character.attackSpeed*1000) {
+        if(timer<=character.attackSpeed*1000 && character.lastAttack!==0) {
             ctx.fillStyle = `yellow`;
             ctx.fillRect(123, 4, 100 * (timer / (character.attackSpeed * 1000)), 12);
         }
