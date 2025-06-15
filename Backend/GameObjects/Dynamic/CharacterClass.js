@@ -1,4 +1,5 @@
 import {GameObject} from "../GameObjectClass.js";
+import {SpriteSheet} from "../SpriteSheet.js";
 export class Character extends GameObject{
 hp={currentHp:50,maxHp:100};
 attackType={ranged:false,melee:true};
@@ -13,11 +14,15 @@ standing=false;
 characterType='default';
 lastAttack=0;
 attackSpeed=1.5;
+spriteSheat;
 Tile;
 constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
     this.position=position
+}
+setSpriteSheat(src){
+    this.spriteSheat=new SpriteSheet(src);
 }
 isStatic=()=>false;
 isDead=()=>this.hp.currentHp<=0;
