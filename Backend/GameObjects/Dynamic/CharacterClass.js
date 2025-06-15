@@ -27,7 +27,6 @@ constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
     this.position=position
-    console.error(window.location.origin);
     this.slashSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/sword-sound.mp3`);
     this.hurtSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/hurt-sound.mp3`);
     this.deathSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/death-sound.mp3`);

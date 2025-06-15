@@ -14,9 +14,9 @@ export class Player extends Character{
     }
     reloadAction=(ctx,i,j,level,movement,deltaTime)=>{
         if(!this.isDead()) {
-            console.log("Player State:", this.state);
-            console.log("Player Frame:", this.lastFrame);
-            console.log("Player Attack Animation:", this.attackAnimation)
+            // console.log("Player State:", this.state);
+            // console.log("Player Frame:", this.lastFrame);
+            // console.log("Player Attack Animation:", this.attackAnimation)
             movement.move(this, deltaTime);
             this.collisions(this, ctx, level, movement);
             this.animate(ctx)
