@@ -1,4 +1,4 @@
-[- **Move Left:** `A` or ⬅️ Left Arrow  
+- **Move Left:** `A` or ⬅️ Left Arrow  
 - **Move Right:** `D` or ➡️ Right Arrow  
 - **Jump:** `W` or ⬆️ Up Arrow  
 - **Attack:** `Q`  
