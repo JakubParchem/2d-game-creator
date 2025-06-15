@@ -27,9 +27,9 @@ constructor(size,color,position,hp=50) {
     super(size,color);
     this.hp.currentHp=hp;
     this.position=position
-    this.slashSound=new Audio(`${window.location.origin}/Frontend/Sounds/sword-sound.mp3`);
-    this.hurtSound=new Audio(`${window.location.origin}/Frontend/Sounds/hurt-sound.mp3`);
-    this.deathSound=new Audio(`${window.location.origin}/Frontend/Sounds/death-sound.mp3`);
+    this.slashSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/sword-sound.mp3`);
+    this.hurtSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/hurt-sound.mp3`);
+    this.deathSound=new Audio(`${window.location.origin}/2d-game-creator/Frontend/Sounds/death-sound.mp3`);
 }
 setSpriteSheat(src){
     this.spriteSheat=new SpriteSheet(src,false);
