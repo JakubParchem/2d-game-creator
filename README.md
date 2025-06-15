@@ -7,3 +7,5 @@
 
 
 [Sprites from CRAFTPIX.net](https://craftpix.net/freebies/free-samurai-pixel-art-sprite-sheets/?num=1&count=8&sq=samurai&pos=7)
+
+[Sounds from pixabay](https://pixabay.com)
