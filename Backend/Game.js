@@ -80,7 +80,7 @@ function gameLoop(){
 const platform=new Platform({width:50,height:50},"blue");
 function reloadLevel(ctx,deltaTime,grid){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    if(level.areEnemiesAlive() || stopped) {
+    if((level.areEnemiesAlive() && !level.getPlayer().isDead()) || stopped) {
         for (let i = 0; i < level.width; i++) {
             for (let j = 0; j < level.height; j++) {
                 const Tile = level.getTile(i, j)
@@ -95,7 +95,6 @@ function reloadLevel(ctx,deltaTime,grid){
                             break
                         }
                         case "Player": {
-                            document.getElementById("display").textContent = level.getPlayer().isDead();
                             if (level.getPlayer() && !stopped) {
                                 level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
                             } else if (level.getPlayer()) {
