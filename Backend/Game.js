@@ -54,8 +54,9 @@ canvas.addEventListener('click', (e) => {
     }
     if((currentTool === "Eraser") && level.getTile(tileX,tileY).objId!==-1 && stopped) {
         level.clearTile(tileX,tileY);
-        levelstring=level.getLevelJSON();
-        load=true;
+        // levelstring=level.getLevelJSON();
+        // level.loadLevel(levelstring);
+        // load=true;
     }
 });
 let stopped = true;
@@ -76,41 +77,42 @@ function gameLoop(){
     console.log("\n\n")
     requestAnimationFrame(gameLoop);
 }
+const platform=new Platform({width:50,height:50},"blue");
 function reloadLevel(ctx,deltaTime,grid){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     if(level.areEnemiesAlive() || stopped) {
         for (let i = 0; i < level.width; i++) {
             for (let j = 0; j < level.height; j++) {
                 const Tile = level.getTile(i, j)
-                switch (Tile.objType) {
-                    case "Static": {
-                        level.staticObjects[Tile.objId].reloadAction(ctx, i, j);
-                        break
-                    }
-                    case "Dynamic": {
-                        level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
-                        break
-                    }
-                    case "Player": {
-                        document.getElementById("display").textContent=level.getPlayer().isDead();
-                        if(level.getPlayer() && !stopped) {
+                if(Tile.objType!=="void") {
+                    switch (Tile.objType) {
+                        case "Static": {
+                            level.staticObjects[Tile.objId].reloadAction(ctx, i, j);
+                            break
+                        }
+                        case "Dynamic": {
                             level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
+                            break
                         }
-                        else if (level.getPlayer()){
-                            ctx.fillStyle='green'
-                            ctx.fillRect(i*50,j*50,50,50)
+                        case "Player": {
+                            document.getElementById("display").textContent = level.getPlayer().isDead();
+                            if (level.getPlayer() && !stopped) {
+                                level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime);
+                            } else if (level.getPlayer()) {
+                                ctx.fillStyle = 'green'
+                                ctx.fillRect(i * 50, j * 50, 50, 50)
+                            }
+                            break
                         }
-                        break
-                    }
-                    case "Enemy": {
-                        if(level.getPlayer() && level.areEnemiesAlive()&& !stopped) {
-                            level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime, level.getPlayer());
+                        case "Enemy": {
+                            if (level.getPlayer() && level.areEnemiesAlive() && !stopped) {
+                                level.dynamicObjects[Tile.objId].reloadAction(ctx, i, j, level, movement, deltaTime, level.getPlayer());
+                            } else if (stopped) {
+                                ctx.fillStyle = 'red'
+                                ctx.fillRect(i * 50, j * 50, 50, 50)
+                            }
+                            break
                         }
-                        else if(stopped){
-                            ctx.fillStyle='red'
-                            ctx.fillRect(i*50,j*50,50,50)
-                        }
-                        break
                     }
                 }
             }

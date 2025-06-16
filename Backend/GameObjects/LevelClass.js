@@ -83,6 +83,13 @@ export class Level{
         let Tile=this.getTile(width,height)
         if(Tile.objType==="Static"){
             this.removeStatic(this.staticObjects[Tile.objId])
+            this.map.forEach((n)=>{
+                if(n.objType==="Static"){
+                    if(n.objId>Tile.objId){
+                        n.objId--;
+                    }
+                }
+            })
         }
         else{
             this.removeDynamic(this.dynamicObjects[Tile.objId])
